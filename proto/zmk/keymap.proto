@@ -16,6 +16,12 @@ message Request {
         RemoveLayerRequest remove_layer = 10;
         RestoreLayerRequest restore_layer = 11;
         SetLayerPropsRequest set_layer_props = 12;
+        uint32 layer_active = 13;
+        uint32 layer_locked = 14;
+        LayerActivationRequest layer_activate = 15;
+        LayerActivationRequest layer_deactivate = 16;
+        LayerActivationRequest layer_toggle = 17;
+        LayerActivationRequest layer_to = 18;
     }
 }
 
@@ -33,6 +39,12 @@ message Response {
         RemoveLayerResponse remove_layer = 10;
         RestoreLayerResponse restore_layer = 11;
         SetLayerPropsResponse set_layer_props = 12;
+        bool layer_active = 13;
+        bool layer_locked = 14;
+        uint32 layer_activate = 15;
+        uint32 layer_deactivate = 16;
+        uint32 layer_toggle = 17;
+        uint32 layer_to = 18;
     }
 }
 
@@ -171,6 +183,11 @@ message RestoreLayerRequest {
 message SetLayerPropsRequest {
     uint32 layer_id = 1;
     string name = 2;
+}
+
+message LayerActivationRequest {
+    uint32 layer_id = 1;
+    bool locking = 2;
 }
 
 message Keymap {
