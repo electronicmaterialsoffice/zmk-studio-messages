@@ -8,6 +8,7 @@ import "core.proto";
 import "behaviors.proto";
 import "keymap.proto";
 import "backlight.proto";
+import "altar_ii.proto";
 import "haptics.proto";
 
 message Request {
@@ -18,6 +19,7 @@ message Request {
         zmk.behaviors.Request behaviors = 4;
         zmk.keymap.Request keymap = 5;
         zmk.backlight.Request backlight = 8;
+        zmk.altar_ii.Request altar_ii = 32;
         zmk.haptics.Request haptics = 33;
     }
 }
@@ -37,6 +39,7 @@ message RequestResponse {
         zmk.behaviors.Response behaviors = 4;
         zmk.keymap.Response keymap = 5;
         zmk.backlight.Response backlight = 8;
+        zmk.altar_ii.Response altar_ii = 32;
         zmk.haptics.Response haptics = 33;
     }
 }

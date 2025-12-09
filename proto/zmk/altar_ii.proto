@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package zmk.altar_ii;
+
+enum ALSState {
+    ALTAR_II_ALS_ACTIVE = 0;
+    ALTAR_II_ALS_PAUSED = 1;
+    ALTAR_II_ALS_DISABLED = 2;
+}
+
+message Request {
+    oneof request_type {
+        bool als_get_state = 1;
+        ALSState als_set_state = 2;
+        uint32 play_indicator = 3;
+    }
+}
+
+message Response {
+    oneof response_type {
+        ALSState als_get_state = 1;
+        bool als_set_state = 2;
+        bool play_indicator = 3;
+    }
+}
