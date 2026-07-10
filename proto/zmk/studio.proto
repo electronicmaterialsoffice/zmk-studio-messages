@@ -11,6 +11,7 @@ import "backlight.proto";
 import "altar_ii.proto";
 import "haptics.proto";
 import "magdial.proto";
+import "audio.proto";
 
 message Request {
     uint32 request_id = 1;
@@ -23,6 +24,7 @@ message Request {
         zmk.altar_ii.Request altar_ii = 32;
         zmk.haptics.Request haptics = 33;
         zmk.magdial.Request magdial = 34;
+        zmk.audio.Request audio = 35;
     }
 }
 
@@ -44,6 +46,7 @@ message RequestResponse {
         zmk.altar_ii.Response altar_ii = 32;
         zmk.haptics.Response haptics = 33;
         zmk.magdial.Response magdial = 34;
+        zmk.audio.Response audio = 35;
     }
 }
 
@@ -51,5 +54,7 @@ message Notification {
     oneof subsystem {
         zmk.core.Notification core = 2;
         zmk.keymap.Notification keymap = 5;
+        zmk.backlight.Notification backlight = 8;
+        zmk.audio.Notification audio = 35;
     }
 }

@@ -2,6 +2,35 @@ syntax = "proto3";
 
 package zmk.haptics;
 
+// Full runtime haptics configuration: output enable, DRV2605L rated voltage
+// (0x00..0x50 — the intensity control), and a per-event enable mask where
+// bit n gates enum altar_ii_indicator value n (all bits set = play everything,
+// the factory default).
+message Config {
+    bool on = 1;
+    uint32 rated_voltage = 2;
+    uint32 event_mask = 3;
+}
+
+message GetConfigRequest {}
+
+message GetConfigResponse {
+    Config config = 1;
+}
+
+message SetConfigRequest {
+    Config config = 1;
+}
+
+message SetConfigResponse {
+    enum Result {
+        RESULT_UNSPECIFIED = 0;
+        RESULT_OK = 1;
+        RESULT_INVALID = 2;
+    }
+    Result result = 1;
+}
+
 message Request {
     oneof request_type {
         bool haptics_on = 1;
@@ -10,6 +39,8 @@ message Request {
         bool haptics_is_on = 4;
         bool haptics_get_rated_voltage = 5;
         uint32 haptics_set_rated_voltage = 6;
+        GetConfigRequest get_config = 7;
+        SetConfigRequest set_config = 8;
     }
 }
 
@@ -21,5 +52,7 @@ message Response {
         bool haptics_is_on = 4;
         uint32 haptics_get_rated_voltage = 5;
         bool haptics_set_rated_voltage = 6;
+        GetConfigResponse get_config = 7;
+        SetConfigResponse set_config = 8;
     }
 }

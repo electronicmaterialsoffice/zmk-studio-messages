@@ -23,3 +23,16 @@ message Response {
         bool backlight_set_brightness = 6;
     }
 }
+
+message State {
+    bool on = 1;
+    uint32 brightness = 2;
+}
+
+// Pushed when backlight state changes on the device side (the &bl keymap
+// behavior or an RPC set), so a connected client stays in sync.
+message Notification {
+    oneof notification_type {
+        State state_changed = 1;
+    }
+}

@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package zmk.audio;
+
+// Full runtime audio configuration: output enable, codec volume attenuation
+// (0 = loudest .. 1023 = quietest — the AW88082's native inverse scale), and
+// a per-event enable mask where bit n gates enum altar_ii_indicator value n
+// (all bits set = play everything, the factory default).
+message Config {
+    bool on = 1;
+    uint32 volume_attenuation = 2;
+    uint32 event_mask = 3;
+}
+
+message GetConfigRequest {}
+
+message GetConfigResponse {
+    Config config = 1;
+}
+
+message SetConfigRequest {
+    Config config = 1;
+}
+
+message SetConfigResponse {
+    enum Result {
+        RESULT_UNSPECIFIED = 0;
+        RESULT_OK = 1;
+        RESULT_INVALID = 2;
+    }
+    Result result = 1;
+}
+
+message Request {
+    oneof request_type {
+        GetConfigRequest get_config = 1;
+        SetConfigRequest set_config = 2;
+        // Plays a fixed test clip at the current volume, bypassing the event
+        // mask — a volume test must be audible regardless of the toggles.
+        bool play_test = 3;
+    }
+}
+
+message Response {
+    oneof response_type {
+        GetConfigResponse get_config = 1;
+        SetConfigResponse set_config = 2;
+        bool play_test = 3;
+    }
+}
+
+// Pushed when audio state changes on the device side (the &aud volume keys),
+// so a connected client stays in sync.
+message Notification {
+    oneof notification_type {
+        Config config_changed = 1;
+    }
+}
