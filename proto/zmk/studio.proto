@@ -10,6 +10,7 @@ import "keymap.proto";
 import "backlight.proto";
 import "altar_ii.proto";
 import "haptics.proto";
+import "magdial.proto";
 
 message Request {
     uint32 request_id = 1;
@@ -21,6 +22,7 @@ message Request {
         zmk.backlight.Request backlight = 8;
         zmk.altar_ii.Request altar_ii = 32;
         zmk.haptics.Request haptics = 33;
+        zmk.magdial.Request magdial = 34;
     }
 }
 
@@ -41,6 +43,7 @@ message RequestResponse {
         zmk.backlight.Response backlight = 8;
         zmk.altar_ii.Response altar_ii = 32;
         zmk.haptics.Response haptics = 33;
+        zmk.magdial.Response magdial = 34;
     }
 }
 

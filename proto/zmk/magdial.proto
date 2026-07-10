@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package zmk.magdial;
+
+import "keymap.proto";
+
+// Runtime configuration for the dial: rotation actions (one per direction),
+// press actions (single/double/triple/long + an enable gate), and a rotation
+// sensitivity scale.
+//
+// Every slot carries an ordinary press-class behavior binding (behavior local
+// id + params) — e.g. &kp with a consumer usage, or a baked keymap macro. The
+// firmware's dispatch behaviors tap the stored binding, so no sensor-rotate
+// wrappers are ever stored. An empty/disabled slot is a zeroed BehaviorBinding
+// (behavior_id == 0, params 0), mirroring the keymap's local_id == 0
+// convention.
+message DialConfig {
+    zmk.keymap.BehaviorBinding cw_action     = 1;
+    zmk.keymap.BehaviorBinding ccw_action    = 2;
+
+    bool                       press_enabled = 3;
+    zmk.keymap.BehaviorBinding single_press  = 4;
+    zmk.keymap.BehaviorBinding double_press  = 5;
+    zmk.keymap.BehaviorBinding triple_press  = 6;
+    zmk.keymap.BehaviorBinding long_press    = 7;
+
+    // Opaque 0..10 scale; firmware maps it to rotation event rate
+    // (triggers-per-rotation relative to the board's devicetree base).
+    uint32                     sensitivity   = 8;
+}
+
+message GetConfigRequest {}
+
+message GetConfigResponse {
+    DialConfig config = 1;
+}
+
+message SetConfigRequest {
+    DialConfig config = 1;
+}
+
+message SetConfigResponse {
+    enum Result {
+        RESULT_UNSPECIFIED = 0;
+        RESULT_OK = 1;
+        RESULT_INVALID = 2;
+    }
+    Result result = 1;
+}
+
+message Request {
+    oneof request_type {
+        GetConfigRequest get_config = 1;
+        SetConfigRequest set_config = 2;
+    }
+}
+
+message Response {
+    oneof response_type {
+        GetConfigResponse get_config = 1;
+        SetConfigResponse set_config = 2;
+    }
+}
